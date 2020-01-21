@@ -3,7 +3,7 @@ bridge_span = 100
 bridge_height = 5
 percent_load = 1
 train_length = 100
-wheel_diatribution_train = [3,65,15,87]
+wheel_diatribution_train = [5,45,55,95]
 force_from_wheel = 50
 
 
@@ -22,8 +22,10 @@ def find_pins (wheel_distribution_train, percent_load, bridge_span, train_length
     #where front of train is
     front_train = (1-percent_load) * bridge_span
     
+    #number of wheels is equal to number of distributed loads
     for i in range(len(wheel_distribution_train)):
         
+        #checking if wheel is actually in the bridge
         if (front_train + wheel_distribution_train[i]) <= bridge_span:
             wheel_location.append(front_train + wheel_distribution_train[i])
             
