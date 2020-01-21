@@ -25,16 +25,20 @@ def find_pins (wheel_distribution_train, percent_load, bridge_span, train_length
     #number of wheels is equal to number of distributed loads
     for i in range(len(wheel_distribution_train)):
         
-        #checking if wheel is actually in the bridge
+        #checking if wheel is actually on the bridge
         if (front_train + wheel_distribution_train[i]) <= bridge_span:
+            
+            #finding where the wheel actually is on the bridge
             wheel_location.append(front_train + wheel_distribution_train[i])
             
+            #affected pins are calculated by finding which pins the wheel lies on or between
             affected_pins.append(int(((wheel_location[i]/bridge_span) * num_panel_points)))
             affected_pins.append(int(((wheel_location[i]/bridge_span) * num_panel_points)) + 1)
             
-            pin_affected_amount = 1 - (((wheel_location[i]/bridge_span) * num_panel_points)-int(((wheel_location[i]/bridge_span) * num_panel_points)))
-            amount_affected.append(pin_affected_amount)
-            amount_affected.append(1 -pin_affected_amount)
+            #finds ratio of force on each pin
+            force_ratio = 1 - (((wheel_location[i]/bridge_span) * num_panel_points)-int(((wheel_location[i]/bridge_span) * num_panel_points)))
+            amount_affected.append(force_ratio)
+            amount_affected.append(1 - force_ratio)
     
     
     print (amount_affected)
