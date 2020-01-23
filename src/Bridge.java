@@ -6,6 +6,33 @@ public class Bridge {
     double length;
     double height;
     int panelPoints;
+    double panelPointSpan;
+
+    ArrayList<Double> wheelLocation = new ArrayList<Double>();
+
+    public void setBridgePins(ArrayList<Pin> bridgePins) {
+        this.bridgePins = bridgePins;
+    }
+
+    public void setWheelLocation(ArrayList<Double> wheelLocation) {
+        this.wheelLocation = wheelLocation;
+    }
+
+    public ArrayList<Double> getWheelLocation() {
+        return wheelLocation;
+    }
+
+    public void addWheelLocation(Double wheelLocation) {
+        this.wheelLocation.add(wheelLocation);
+    }
+
+    public double getPanelPointSpan() {
+        return panelPointSpan;
+    }
+
+    public void setPanelPointSpan(double panelPointSpan) {
+        this.panelPointSpan = panelPointSpan;
+    }
 
     public ArrayList<Pin> getBridgePins() {
         return bridgePins;
