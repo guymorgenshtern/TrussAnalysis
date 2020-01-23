@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.math.*;
 
 public class TrussAnalysis {
 
@@ -27,6 +28,7 @@ public class TrussAnalysis {
         bridge.setLength(bridge_span);
 
         train.setLength(train_length);
+        train.setForceFromWheel(force_from_wheel);
 
         for (int i = 0; i < (2*numPanelPoints) - 2; i++) {
             Pin pin = new Pin();
@@ -74,7 +76,7 @@ public class TrussAnalysis {
 
         int jointAffected = 0;
         double amountAffected = 0;
-        double forceRatio = 0;
+        double forceRatio;
 
         double frontTrain = (1-percent_load) * bridge.getLength();
         for (int i = 0; i < wheelDistribution.size(); i++) {
@@ -84,19 +86,17 @@ public class TrussAnalysis {
 
                 jointAffected = (int) (bridge.getWheelLocation().get(i)/bridge.getLength() * bridge.getPanelPoints());
 
-                forceRatio = 1 - (((bridge.getWheelLocation().get(i)/bridge.getPanelPoints()) * bridge.getPanelPoints())
-                        - (int)(((bridge.getWheelLocation().get(i)/bridge.getLength()) * bridge.getPanelPoints())));
+                forceRatio = 1.0 - (((bridge.getWheelLocation().get(i)/bridge.getLength()) * bridge.getPanelPoints())
+                        - Math.floor((((bridge.getWheelLocation().get(i)/bridge.getLength()) * bridge.getPanelPoints()))));
 
+                
                 amountAffected = forceRatio * train.getForceFromWheel();
 
-                System.out.println(i + " " + jointAffected);
                 bridge.getBridgePins().get(jointAffected - 1).addForceOnPins(amountAffected);
+               System.out.println(bridge.getBridgePins().get(jointAffected - 1).getForceOnPins());
 
             }
 
-        }
-
-        for (int j = 0; j < bridge.getBridgePins().size(); j++) {
         }
 
     }
