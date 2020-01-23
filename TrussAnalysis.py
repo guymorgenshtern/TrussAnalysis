@@ -12,10 +12,6 @@ force_from_wheel = 50
 num_panel_points = bridge_span // bridge_height
 span_panel_points = bridge_span / num_panel_points
 
-
-
-
-
 #finds pins affected by live load
 def find_pins (wheel_distribution_train, percent_load, bridge_span, train_length): 
     
@@ -48,17 +44,22 @@ def find_pins (wheel_distribution_train, percent_load, bridge_span, train_length
     return affected_pins
 
 
-
+#calculates the force on each specific pin
 def force_calculation (amount_affected, affected_pins):
     
-    force_on_pins = []
+    dead_loads = []
     
     for pin in range(len(affected_pins)):
-        force_on_pins.append(force_from_wheel*amount_affected[pin])
-    print(force_on_pins)
+        dead_loads.append(force_from_wheel*amount_affected[pin])
+    print(dead_loads)
     
     return
 
+def moment_calculation (dead_loads, wheel_location):
+    
+    force_on_pins = []
+    
+    
 
 
 find_pins(wheel_distribution_train, percent_load, bridge_span, train_length)
