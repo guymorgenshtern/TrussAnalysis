@@ -16,7 +16,7 @@ public class TrussAnalysis {
 
         wheelDistribution.add(5.0);
         wheelDistribution.add(45.0);
-        wheelDistribution.add(55.0);
+        wheelDistribution.add(53.0);
         wheelDistribution.add(95.0);
 
         int numPanelPoints = (int) (bridge_span /bridge_height);
@@ -37,42 +37,10 @@ public class TrussAnalysis {
 
         findPins (wheelDistribution, percent_load);
 
-
-
     }
-
-
 
     //finds pins affected by live load
     public static void findPins (ArrayList<Double> wheelDistribution, int percent_load) {
-
-//        ArrayList affected_pins = []
-//        amount_affected = []
-//        wheel_location = []
-//
-//         //where front of train is
-//            front_train = (1-percent_load) * bridge_span
-//
-//    #number of wheels is equal to number of distributed loads
-//    for i in range(len(wheel_distribution_train)):
-//
-//            #checking if wheel is actually on the bridge
-//        if (front_train + wheel_distribution_train[i]) <= bridge_span:
-//
-//            #finding where the wheel actually is on the bridge
-//            wheel_location.append(front_train + wheel_distribution_train[i])
-//
-//            #affected pins are calculated by finding which pins the wheel lies on or between
-//            affected_pins.append(int(((wheel_location[i]/bridge_span) * num_panel_points)))
-//            affected_pins.append(int(((wheel_location[i]/bridge_span) * num_panel_points)) + 1)
-//
-//            #finds ratio of force on each pin
-//            force_ratio = 1 - (((wheel_location[i]/bridge_span) * num_panel_points)-int(((wheel_location[i]/bridge_span) * num_panel_points)))
-//            amount_affected.append(force_ratio)
-//            amount_affected.append(1 - force_ratio)
-//
-//    force_calculation(amount_affected, affected_pins)
-//    return affected_pins
 
         int jointAffected = 0;
         double amountAffected = 0;
@@ -89,11 +57,16 @@ public class TrussAnalysis {
                 forceRatio = 1.0 - (((bridge.getWheelLocation().get(i)/bridge.getLength()) * bridge.getPanelPoints())
                         - Math.floor((((bridge.getWheelLocation().get(i)/bridge.getLength()) * bridge.getPanelPoints()))));
 
-                
+
                 amountAffected = forceRatio * train.getForceFromWheel();
 
                 bridge.getBridgePins().get(jointAffected - 1).addForceOnPins(amountAffected);
                System.out.println(bridge.getBridgePins().get(jointAffected - 1).getForceOnPins());
+
+               if (forceRatio < 1) {
+                   amountAffected = forceRatio * train.getForceFromWheel();
+                   bridge.getBridgePins().get(jointAffected).addForceOnPins(amountAffected);
+               }
 
             }
 
